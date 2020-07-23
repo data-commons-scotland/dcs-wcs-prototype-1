@@ -1,0 +1,121 @@
+= Fulcro RAD Demo
+
+This is a demo repository for Fulcro RAD. It includes a shared source directory of files that would be
+common to any project, and then separate source directories that have specific files that would be
+needed to work with specific back-end technologies (currently SQL and Datomic).
+
+IMPORTANT: Login is `tony@example.com` with password `letmein`.
+
+== Status
+
+RAD is changing rapidly, and this demo *may* be out of date. The time it takes to maintain it is more
+than I have. If a contributor would like to take on this project and keep it up to date and working
+that would be great (PM me on Slack), but please do not expect support on this repository in any form at the
+present time.
+
+The SQL version has some known bugs. If you want to play with RAD, use the Datomic database adapter for now.
+
+WARNING: The API is *not* stable. While in Alpha *there will be breaking changes*. I will try to minimize these,
+but this library is still in the design phases, so don't use it for "real stuff" unless you can tolerate that
+instability on top of the alpha status.
+
+== Running From Source
+
+The *very* active development I'm doing makes changes to 5 projects at once (Fulcro, Fulcro RAD, Fulcro RAD Datomic,
+Fulcro RAD SQL, and this demo). I do not guarantee I will keep everything in sync as far as versions in the deps
+file go.  I personally set the following in my top-level `~/.clojure/deps.edn`:
+
+[source]
+-----
+{:aliases {:f3-dev    {:override-deps {com.fulcrologic/fulcro {:local/root "/Users/tonykay/fulcrologic/fulcro"
+                                                               :exclusions [com.taoensso/sente]}}}
+           :rad-dev   {:override-deps {com.fulcrologic/fulcro-rad                 {:local/root "/Users/username/fulcrologic/fulcro-rad"}
+                                       com.fulcrologic/fulcro-rad-sql             {:local/root "/Users/username/fulcrologic/fulcro-rad-sql"}
+                                       com.fulcrologic/fulcro-rad-semantic-ui     {:local/root "/Users/username/fulcrologic/fulcro-rad-semantic-ui"}
+                                       com.fulcrologic/fulcro-rad-datomic         {:local/root "/Users/username/fulcrologic/fulcro-rad-datomic"
+                                                                                   :exclusions [com.datomic/datomic-free]}}}}}
+-----
+
+so that in IntelliJ (or at the command line) I can work from local sources for all of them.  I try to remember to push SNAPSHOTS
+daily, but if I forget and you see some missing symbol error or things are broken, that is almost certainly why.
+
+Running shadow and clj would look like this from the command line:
+
+[source, bash]
+-----
+# in one terminal
+$ shadow-cljs -A:f3-dev:rad-dev watch main
+# in another terminal
+$ clj -A:dev:f3-dev:rad-dev:datomic
+-----
+
+In IntelliJ, you'd simply make sure to run a CLJ REPL with current classpath, and use the alias checkboxes and `+` button
+in the Clojure Deps tab to set it up.
+
+== Building the SPA
+
+You must compile the CLJS source to run the client. If you want to be
+able to edit it, just start a shadow-cljs watch:
+
+[source, bash]
+-----
+$ yarn
+$ shadow-cljs watch main
+-----
+
+if you don't have `yarn`, use `npm install` instead.
+
+== Running an SQL-based Server
+
+The example code should work with most SQL databases (and defaults to using an in-memory H2 db). The data source
+is configured in the `defaults.edn` config file in the sql source
+directory. See the HikariCP connection pool documentation.
+
+The SQL example has a custom `development` namespace in the `src/sql` source
+folder, along with components needed to run that server.
+
+You can start the server-side version for SQL using the deps aliases that
+set up the proper classpath:
+
+[source, bash]
+-----
+$ clj -A:dev:sql
+user=> (clojure.core/require 'development)
+user=> (development/go)
+-----
+
+== Running a Datomic-based Server
+
+The example code for Datomic components is in the `src/datomic` folder, along with a custom
+`development.clj`. It defaults to using an in-memory datomic-free database.
+
+You can run it with the `:datomic` deps alias:
+
+[source, bash]
+-----
+$ clj -A:dev:datomic
+user=> (clojure.core/require 'development)
+user=> (development/go)
+-----
+
+== Restarting
+
+The `development/restart` will stop the server, reload source, and start the server.
+
+== LICENSE
+
+The MIT License (MIT)
+Copyright (c), Fulcrologic, LLC
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+documentation files (the "Software"), to deal in the Software without restriction, including without limitation the
+rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit
+persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the
+Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
+WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.

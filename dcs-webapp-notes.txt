@@ -1,0 +1,83 @@
+The Data Commons Scotland webapp (known as 'Waste Commons Scotland')
+
+-------------------------------------
+
+Based on Fulcro's RAD demo
+
+    source: https://github.com/fulcrologic/fulcro-rad-demo
+
+    documentation: http://book.fulcrologic.com/RAD.html#_platform_targets
+
+
+    Set-up, env, tools, etc.
+
+     		OSX El Capitan 10.11.6
+
+     		Google Chrome 83.0.4103.116
+     			open the developer tools console:  Cmd Option J
+     			then customise... http://book.fulcrologic.com/#_configure_chrome_development_settings
+     			also added the Fulcro Inspect extension
+
+     		JDK 11.0.5
+
+     		Clojure 1.10.1
+
+     		npm 5.5.0
+     			node 8.9.1
+
+     		shadow-cljs 2.10.13
+
+     		IntelliJ IDEA Community 2020.1
+     			with the Cursive plugin installed
+
+                Import Project > choose the deps.edn file 
+
+
+    Build, run, etc.
+
+            terminal A
+                npx shadow-cljs -A:f3-dev:rad-dev watch main
+
+            terminal B
+                 clj -A:dev:f3-dev:rad-dev:datomic
+                 ;; now in a local clj REPL within which we'll start the backend
+                 user-> (clojure.core/require 'development)
+                 user=> (development/go)
+
+                 ;; example commands
+                 (require '[datomic.api :as d])
+                 (require '[com.example.components.datomic :refer [datomic-connections]])
+                 (def db (d/db (:main datomic-connections)))
+
+                 (def ash (d/pull db '[*] [:account/email "ash@mac.com"])) ;; where :account/email uniquely identifies the entity
+                 (pprint ash)
+
+                 (d/q '[:find [?v ...] :where [?e :category/label ?v]] db)
+                 (d/q '[:find [?v ...] :where [?e :account/name ?v]] db)
+
+            Google Chrome
+                shadow-cljs server: http://localhost:9630/
+                test outcomes: http://localhost:8081/
+                web ui: http://localhost:3000/
+
+            CLJS nREPL
+                # connect to the shadow-cljs nREPL at localhost:9000
+                (shadow/repl :main)
+                (js/alert "Testing!")
+
+
+---------------------------
+
+Git 
+
+    TODO... or make this a subtree of the existing dcs repo
+
+    git init
+    git add -A
+    git commit -m 'Initial commit'
+    git remote add origin git@github.com:ash-mcc/dcs-webapp.git
+    git push -u -f origin master
+
+
+
+
