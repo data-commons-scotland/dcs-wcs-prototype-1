@@ -42,7 +42,7 @@
   (log/merge-config! {:output-fn prefix-output-fn
                       :appenders {:console (console-appender)}})
   ;; a default tz until they log in
-  (datetime/set-timezone! "America/Los_Angeles")
+  (datetime/set-timezone! "Europe/London")
   (history/install-route-history! app (html5-history))
   (rad-app/install-ui-controls! app sui/all-controls)
   (app/mount! app Root "app"))

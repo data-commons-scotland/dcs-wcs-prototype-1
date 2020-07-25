@@ -11,6 +11,8 @@ Based on Fulcro's RAD demo
 
     Set-up, env, tools, etc.
 
+            read http://book.fulcrologic.com/#_install_supporting_tools
+
      		OSX El Capitan 10.11.6
 
      		Google Chrome 83.0.4103.116
@@ -25,7 +27,7 @@ Based on Fulcro's RAD demo
      		npm 5.5.0
      			node 8.9.1
 
-     		shadow-cljs 2.10.13
+     		shadow-cljs 2.10.17
 
      		IntelliJ IDEA Community 2020.1
      			with the Cursive plugin installed
@@ -70,13 +72,15 @@ Based on Fulcro's RAD demo
 
 Git 
 
-    TODO... or make this a subtree of the existing dcs repo
-
     git init
     git add -A
     git commit -m 'Initial commit'
+    # still TODO after this line
     git remote add origin git@github.com:ash-mcc/dcs-webapp.git
     git push -u -f origin master
+
+----------------------------
+
 
 
 
