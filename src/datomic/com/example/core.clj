@@ -1,9 +1,21 @@
 (ns com.example.core
-  (:require [development])
+  (:require
+    #_[clojure.tools.cli :as cli]
+    [mount.core :as mount]
+    [development :as dev])
   (:gen-class))
+
+#_(defn parse-opt-vals [args]
+        (let [opts [["-h" "--host HOST" "Host address"]
+                    ["-p" "--port PORT" "Port number"]]]
+             (:options (cli/parse-opts args opts))))
 
 (defn -main
       "For starting as a JAR file."
-      []
-      (println "Calling development/start ...")
-      (development/start))
+      [& args]
+      (println "Backend is starting")
+      (mount/start-with-args {:config "config/prod.edn"
+                              :overrides {:org.immutant.web/config {:port 8085
+                                                                    :host "192.168.1.64"}}})
+      (dev/seed!))
+

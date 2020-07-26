@@ -2,11 +2,11 @@
 
 One of the objectives of the http://stir.ac.uk/dcs/TODO[Data Commons Scotland] project
 is to develop a prototype web application that helps its user community
-find, understand and comment on the _open data_ about waste management in Scotland.
+find, understand and comment on the _open data_ about *waste* management in Scotland.
 The resulting web application is called *Waste Commons Scotland* (*WCS*),
 and this repository contains its source code and build instructions.
 
-WARNING: This is _a work-in-progress_.
+WARNING: The project is at an early stage and this is mostly _placeholder_ content.
 
 == Building and running
 
@@ -30,12 +30,13 @@ with the Cursive plugin installed.
 
 ==== In terminal A...
 
+Start a REPL for running the backend...
 [source, bash]
 -----
 clj -A:dev:datomic
 -----
 
-Within the resulting REPL (for running the backend), start the backend...
+Within the resulting REPL, start the backend...
 [source, clojure]
 -----
 (clojure.core/require 'development)
@@ -58,12 +59,13 @@ d/q '[:find [?v ...] :where [?e :category/label ?v]] db)
 
 ==== In terminal B...
 
+Start a REPL for transpiling the frontend...
 [source, bash]
 -----
 npx shadow-cljs -A:f3-dev:rad-dev watch main
 -----
 
-Within the resulting REPL (for transpiling the fontend), connect to the nREPL in the browser at localhost:9000
+Within the resulting REPL, connect to the nREPL in the browser at `localhost:9000` ...
 [source, clojure]
 -----
 (shadow/repl :main)
@@ -76,27 +78,24 @@ Within the resulting REPL (for transpiling the fontend), connect to the nREPL in
 * test outcomes: http://localhost:8081/
 * web ui: http://localhost:3000/
 
-== For deployment
+=== For deployment
 
-* Edit `dep.edn` and `shadow-cljs.edn` as per https://github.com/seancorfield/depstar
- and https://folcon.github.io/post/2020-04-12-Fulcro-on-Heroku/
-* Create a `com.example.core/-main`
-* Generate a POM file:
+* Generate a POM file...
 [source, bash]
 -----
 clojure -Spom
 -----
-* Build the frontend:
+* Build the frontend...
 [source, bash]
 ----
 npx shadow-cljs release main
 ----
-* Build the backend:
+* Build the backend...
 [source, bash]
 ----
 clojure -A:depstar:dev:datomic -m hf.depstar.uberjar wcs.jar -C -m com.example.core  -v
 ----
-* Run the backend:
+* Run the backend...
 [source]
 ----
 java -jar wcs.jar
