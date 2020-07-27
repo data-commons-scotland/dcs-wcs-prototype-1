@@ -67,7 +67,10 @@
     (dom/div
 
          (div :.ui.top.menu
-              (div :.ui.item (dom/img {:src "/images/dcs.png"}) ent/nbsp "Waste Commons Scotland")
+              #?(:cljs
+                 (comp/fragment
+                   (ui-menu-item {:onClick (fn [] (rroute/route-to! this LandingPage {}))}
+                                 (dom/img {:src "/images/dcs.png"}) ent/nbsp "Waste Commons Scotland")))
               (when logged-in?
                 #?(:cljs
                    (comp/fragment
