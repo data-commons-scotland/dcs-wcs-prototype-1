@@ -3,13 +3,13 @@
     [clojure.pprint :refer [pprint]]
     [clojure.repl :refer [doc source]]
     [clojure.tools.namespace.repl :as tools-ns :refer [disable-reload! refresh clear set-refresh-dirs]]
-    [com.example.components.ring-middleware]
-    [com.example.components.server]
-    [com.example.components.connection-pools]
-    [com.example.components.database-queries :as queries]
-    [com.example.model.account :as account]
-    [com.example.model.category :as category]
-    [com.example.model :refer [all-attributes]]
+    [wcs.components.ring-middleware]
+    [wcs.components.server]
+    [wcs.components.connection-pools]
+    [wcs.components.database-queries :as queries]
+    [wcs.model.account :as account]
+    [wcs.model.category :as category]
+    [wcs.model :refer [all-attributes]]
     [com.fulcrologic.rad.attributes :as attr]
     [com.fulcrologic.rad.database-adapters.sql :as rad.sql]
     [com.fulcrologic.rad.database-adapters.sql.migration :as mig]
@@ -20,7 +20,7 @@
     [taoensso.timbre :as log]
     [next.jdbc :as jdbc]
     [next.jdbc.sql :as sql]
-    [com.example.components.connection-pools :as pools])
+    [wcs.components.connection-pools :as pools])
   (:import (com.zaxxer.hikari HikariDataSource)))
 
 (set-refresh-dirs "src/main" "src/sql" "src/dev" "src/shared" "../fulcro-rad/src/main" "../fulcro-rad-sql/src/main")

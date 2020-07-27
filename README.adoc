@@ -47,13 +47,13 @@ Useful within this REPL...
 [source, clojure]
 -----
 (require '[datomic.api :as d])
-(require '[com.example.components.datomic :refer [datomic-connections]])
+(require '[wcs.components.datomic :refer [datomic-connections]])
 (def db (d/db (:main datomic-connections)))
 
-(def ash (d/pull db '[*] [:account/email "ash@mac.com"])) ; where :account/email uniquely identifies the entity
+(def ash (d/pull db '[*] [:account/email "ash@example.com"])) ; where :account/email uniquely identifies the entity
 (pprint ash)
 
-d/q '[:find [?v ...] :where [?e :category/label ?v]] db)
+(d/q '[:find [?v ...] :where [?e :category/label ?v]] db)
 (d/q '[:find [?v ...] :where [?e :account/name ?v]] db)
 -----
 
@@ -62,14 +62,7 @@ d/q '[:find [?v ...] :where [?e :category/label ?v]] db)
 Start a REPL for transpiling the frontend...
 [source, bash]
 -----
-npx shadow-cljs -A:f3-dev:rad-dev watch main
------
-
-Within the resulting REPL, connect to the nREPL in the browser at `localhost:9000` ...
-[source, clojure]
------
-(shadow/repl :main)
-(js/alert "Testing!")
+npx shadow-cljs watch main
 -----
 
 ==== Using Google Chrome...
@@ -77,6 +70,20 @@ Within the resulting REPL, connect to the nREPL in the browser at `localhost:900
 * shadow-cljs server: http://localhost:9630/
 * test outcomes: http://localhost:8081/
 * web ui: http://localhost:3000/
+
+==== Using Intellij IDEA...
+
+Create a REPL configuration...
+`Run/Debug Configurations' -> `Templates` -> `Clojure REPL` -> `remote` +
+With the values: `nREPL` `localhost` `9000`
+
+Run that configuration to connect to the nREPL in Google Chrome +
+and select `cljs` from the dropdown...
+[source, clojure]
+-----
+(shadow/repl :main)
+(js/alert "Testing!")
+-----
 
 === For deployment
 
@@ -93,7 +100,7 @@ npx shadow-cljs release main
 * Build the backend...
 [source, bash]
 ----
-clojure -A:depstar:dev:datomic -m hf.depstar.uberjar wcs.jar -C -m com.example.core  -v
+clojure -A:depstar:dev:datomic -m hf.depstar.uberjar wcs.jar -C -m wcs.core  -v
 ----
 * Run the backend...
 [source]
