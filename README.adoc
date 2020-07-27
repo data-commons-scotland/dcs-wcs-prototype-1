@@ -1,14 +1,24 @@
 = Waste Commons Scotland
 
-One of the objectives of the http://stir.ac.uk/dcs/TODO[Data Commons Scotland] project
-is to develop a prototype web application that helps its user community
-find, understand and comment on the _open data_ about *waste* management in Scotland.
-The resulting web application is called *Waste Commons Scotland* (*WCS*),
-and this repository contains its source code and build instructions.
+This repository contains the source code and build instructions for
+the *Waste Commons Scotland* web application (*WCS*).
+
+The development of WCS is one of the outcomes
+of the https://www.stir.ac.uk/research/hub/contract/933675[Data Commons Scotland]
+research project.
+
+The objectives for WCS include:
+
+* Help its user community find, understand and comment on
+the _open data_ about *waste* management in Scotland.
+* Be a demonstrator of the findings from the encompassing research project,
+and be an archetype for future portals onto other categories of _open data_.
 
 WARNING: The project is at an early stage and this is mostly _placeholder_ content.
 
 == Building and running
+
+WCS is built using https://github.com/fulcrologic/fulcro[Fulcro] and its many underlying technologies.
 
 === Setting up the environment, tools, etc.
 
