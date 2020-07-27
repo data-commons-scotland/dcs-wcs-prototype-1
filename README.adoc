@@ -18,7 +18,7 @@ WARNING: The project is at an early stage and this is mostly _placeholder_ conte
 
 == Building and running
 
-WCS is built using https://github.com/fulcrologic/fulcro[Fulcro] and its many underlying technologies.
+WCS is built on https://github.com/fulcrologic/fulcro[Fulcro] and its many underlying technologies.
 
 === Setting up the environment, tools, etc.
 
