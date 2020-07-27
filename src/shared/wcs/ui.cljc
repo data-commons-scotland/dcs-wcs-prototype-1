@@ -29,7 +29,14 @@
    :ident         (fn [] [:component/id ::LandingPage])
    :initial-state {}
    :route-segment ["landing-page"]}
-  (dom/div "Welcome to the Waste Commons Scotland " (dom/i "placeholder") " website."))
+  (dom/div
+    (dom/div #_{:style {:background-color "#ccffff"}}
+      (dom/h2 "Waste Commons Scotland")
+      (dom/font {:style {:color "#E56E94"}} "Search for...")
+      (dom/font {:style {:color "#9CB071"}} " read articles about...")
+      (dom/font {:style {:color "#659EC7"}} " comment on...")
+      " the " (dom/i "open data") " about " (dom/b "waste") " in Scotland.")))
+
 
 ;; This will just be a normal router...but there can be many of them.
 (defrouter MainRouter [this {:keys [current-state route-factory route-props]}]
