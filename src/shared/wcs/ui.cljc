@@ -32,9 +32,11 @@
   (dom/div
     (dom/div #_{:style {:background-color "#ccffff"}}
       (dom/h2 "Waste Commons Scotland")
-      (dom/font {:style {:color "#E56E94"}} "Search for...")
-      (dom/font {:style {:color "#9CB071"}} " read articles about...")
-      (dom/font {:style {:color "#659EC7"}} " comment on...")
+      (dom/font {:style {:color "#E56E94"}} "Search for")
+      ", "
+      (dom/font {:style {:color "#9CB071"}} " learn about")
+      ", "
+      (dom/font {:style {:color "#659EC7"}} " comment on")
       " the " (dom/i "open data") " about " (dom/b "waste") " in Scotland.")))
 
 
