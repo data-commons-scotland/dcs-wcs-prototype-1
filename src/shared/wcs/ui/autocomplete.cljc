@@ -15,29 +15,28 @@
 ;; SERVER:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(def airports
-  ["London Gatwick"
-   "London Heathrow"
-   "London Stanstead"
-   "Dublin"
+(def all-indexed-data
+  ["Stirling Household Collection 2018"
+   "Stirling Household Collection 2019"
+   "Stirling Tip"
+   "Falkirk"
    "Glasgow"
-   "Belfast Aldergrove"
-   "Belfast City"])
+   "Edinburgh"])
 
-(defn airport-search [s]
-      (->> airports
+(defn search-indexed-data [s]
+      (->> all-indexed-data
            (filter (fn [i] (str/includes? (str/lower-case i) (str/lower-case s))))
            (take 10)
            vec))
 
 #?(:clj
-   (pc/defresolver list-resolver [env params]
-                   {::pc/output [:autocomplete/airports]}
+   (pc/defresolver indexed-data-resolver [env params]
+                   {::pc/output [:autocomplete/indexed-data]}
                    (let [search (get-in env [:ast :params :search])]
-                        {:autocomplete/airports (airport-search search)})))
+                        {:autocomplete/indexed-data (search-indexed-data search)})))
 
 #?(:clj
-   (def resolvers [list-resolver]))
+   (def resolvers [indexed-data-resolver]))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; CLIENT:
@@ -75,7 +74,7 @@
   "A debounced function that will trigger a load of the server suggestions into a temporary locations and fire
 a post mutation when that is complete to move them into the main UI view."
   (letfn [(load-suggestions [comp new-value id]
-                            #?(:cljs (df/load! comp :autocomplete/airports nil
+                            #?(:cljs (df/load! comp :autocomplete/indexed-data nil
                                                {:params               {:search new-value}
                                                 :marker               false
                                                 :post-mutation        `populate-loaded-suggestions
@@ -120,12 +119,12 @@ a post mutation when that is complete to move them into the main UI view."
 
 (def ui-autocomplete (comp/factory Autocomplete))
 
-(defsc AutocompleteRoot [this {:keys [airport-input]}]
-       {:initial-state (fn [p] {:airport-input (comp/get-initial-state Autocomplete {:id :airports})})
-        :query         [{:airport-input (comp/get-query Autocomplete)}]
+(defsc AutocompleteRoot [this {:keys [search-input]}]
+       {:initial-state (fn [p] {:search-input (comp/get-initial-state Autocomplete {:id :indexed-data})})
+        :query         [{:search-input (comp/get-query Autocomplete)}]
         :ident         (fn [] [:component/id ::AutocompleteRoot])
         :route-segment ["search"]}
        (dom/div
          (dom/h3 "Search")
          (dom/p "Search our index of open data about waste in Scotland.")
-         (ui-autocomplete airport-input)))
+         (ui-autocomplete search-input)))
