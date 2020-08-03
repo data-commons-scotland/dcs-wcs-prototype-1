@@ -26,6 +26,9 @@ Based on Fulcro's RAD demo
      		Clojure 1.10.1
 
      		npm 5.5.0
+     		        npm list
+     		        npm init
+     		        npm install shadow-cljs react react-dom --save
      			node 8.9.1
 
      		shadow-cljs 2.10.17
@@ -52,7 +55,7 @@ Based on Fulcro's RAD demo
                  (require '[wcs.components.datomic :refer [datomic-connections]])
                  (def db (d/db (:main datomic-connections)))
 
-                 (def ash (d/pull db '[*] [:account/email "ash@mac.com"])) ;; where :account/email uniquely identifies the entity
+                 (def ash (d/pull db '[*] [:account/email "ash@waste-commons.scot"])) ;; where :account/email uniquely identifies the entity
                  (pprint ash)
 
                  (d/q '[:find [?v ...] :where [?e :category/label ?v]] db)
@@ -76,8 +79,7 @@ Git
     git init
     git add -A
     git commit -m 'Initial commit'
-    # still TODO after this line
-    git remote add origin git@github.com:ash-mcc/dcs-webapp.git
+    git remote add origin git@github.com:ash-mcc/dcs-wcs.git
     git push -u -f origin master
 
 ----------------------------
