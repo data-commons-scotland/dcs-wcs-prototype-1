@@ -17,11 +17,12 @@
     (dom/p "The development of WCS is one of the outcomes of the "
            (dom/a {:href "https://www.stir.ac.uk/research/hub/contract/933675" :target "_blank"} "Data Commons Scotland") " research project.")
 
-    (dom/p "The objectives for WCS include:"
-           (dom/ul
-             (dom/li "Help its user community find, understand and comment on the "
-                     (dom/i "open data") " about waste management in Scotland.")
-             (dom/li "Be a demonstrator of the findings from the encompassing research project, and be an archetype for future portals onto other categories of "
-                     (dom/i "open data") ".")))
+    (dom/p "The objectives for WCS include:")
+
+    (dom/ul
+      (dom/li "Help its user community find, understand and comment on the "
+              (dom/i "open data") " about waste management in Scotland.")
+      (dom/li "Be a demonstrator of the findings from the encompassing research project, and be an archetype for future portals onto other categories of "
+              (dom/i "open data") "."))
 
     (dom/p (dom/u "WARNING:") " The project is at an early stage and this is mostly " (dom/i "placeholder") " content.")))

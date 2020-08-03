@@ -10,6 +10,7 @@
     [wcs.model.account :as account]
     [wcs.model.invoice :as invoice]
     [wcs.model.timezone :as timezone]
+    [wcs.ui.autocomplete :as autocomplete]
     [com.fulcrologic.rad.attributes :as attr]
     [com.fulcrologic.rad.blob :as blob]
     [com.fulcrologic.rad.database-adapters.datomic :as datomic]
@@ -44,4 +45,5 @@
      invoice/resolvers
      item/resolvers
      sales/resolvers
-     timezone/resolvers]))
+     timezone/resolvers
+     autocomplete/resolvers]))
