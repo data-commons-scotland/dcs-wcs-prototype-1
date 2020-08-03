@@ -17,19 +17,10 @@
   {ao/schema     :production
    ao/identities #{:address/id}})
 
-(def states #:address.state {:AZ "Arizona"
-                             :AL "Alabama"
-                             :AK "Alaska"
-                             :CA "California"
-                             :CT "Connecticut"
-                             :DE "Deleware"
-                             :GA "Georgia"
-                             :HI "Hawaii"
-                             :KS "Kansas"
-                             :MS "Mississippi"
-                             :MO "Missouri"
-                             :OR "Oregon"
-                             :WA "Washington"})
+(def states #:address.state {:ST "Stirling"
+                             :GL "Glasgow"
+                             :ED "Edinburgh"
+                             :FK "Falkirk"})
 
 (defattr state :address/state :enum
   {ao/enumerated-values (set (keys states))

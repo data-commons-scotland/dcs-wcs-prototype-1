@@ -60,7 +60,7 @@ Useful within this REPL...
 (require '[wcs.components.datomic :refer [datomic-connections]])
 (def db (d/db (:main datomic-connections)))
 
-(def ash (d/pull db '[*] [:account/email "ash@example.com"])) ; where :account/email uniquely identifies the entity
+(def ash (d/pull db '[*] [:account/email "ash@waste-commons.scot"])) ; where :account/email uniquely identifies the entity
 (pprint ash)
 
 (d/q '[:find [?v ...] :where [?e :category/label ?v]] db)

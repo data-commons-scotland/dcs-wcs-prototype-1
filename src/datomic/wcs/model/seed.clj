@@ -29,7 +29,7 @@
      :address/id     id
      :address/street street
      :address/city   "Stirling"
-     :address/state  :address.state/CA
+     :address/state  :address.state/ST
      :address/zip    "FK8 2ZZ"}
     extras))
 
