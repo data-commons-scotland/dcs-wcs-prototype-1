@@ -35,13 +35,13 @@
     (when connection
       (log/info "SEEDING data.")
       @(d/transact connection [(seed/new-address (new-uuid 1) "Stir Biz Park")
-                               (seed/new-account (new-uuid 100) "Ash" "ash@example.com" "letmein"
+                               (seed/new-account (new-uuid 100) "Ash" "ash@waste-commons.scot" "openup"
                                  :account/addresses ["Stir Biz Park"]
                                  :account/primary-address (seed/new-address (new-uuid 300) "Stir Uni")
                                  :time-zone/zone-id :time-zone.zone-id/Europe-London)
-                               (seed/new-account (new-uuid 101) "Sam" "sam@example.com" "letmein")
-                               (seed/new-account (new-uuid 102) "Sal" "sal@example.com" "letmein")
-                               (seed/new-account (new-uuid 103) "Sue" "sue@example.com" "letmein")
+                               (seed/new-account (new-uuid 101) "Greg" "greg@ewaste-commons" "openup")
+                               (seed/new-account (new-uuid 102) "Anna" "anna@ewaste-commons" "openup")
+                               (seed/new-account (new-uuid 103) "Hannah" "hannah@waste-commons" "openup")
                                (seed/new-category (new-uuid 1000) "Tools")
                                (seed/new-category (new-uuid 1002) "Toys")
                                (seed/new-category (new-uuid 1003) "Misc")
@@ -62,15 +62,15 @@
                                (seed/new-invoice "invoice-1" date-1 "Ash"
                                  [(seed/new-line-item "Doll" 1 5.0M)
                                   (seed/new-line-item "Hammer" 1 14.99M)])
-                               (seed/new-invoice "invoice-2" date-2 "Sal"
+                               (seed/new-invoice "invoice-2" date-2 "Anna"
                                  [(seed/new-line-item "Wrench" 1 12.50M)
                                   (seed/new-line-item "Widget" 2 32.0M)])
-                               (seed/new-invoice "invoice-3" date-3 "Sam"
+                               (seed/new-invoice "invoice-3" date-3 "Greg"
                                  [(seed/new-line-item "Wrench" 2 12.50M)
                                   (seed/new-line-item "Hammer" 2 12.50M)])
-                               (seed/new-invoice "invoice-4" date-4 "Sal"
+                               (seed/new-invoice "invoice-4" date-4 "Anna"
                                  [(seed/new-line-item "Robot" 6 89.99M)])
-                               (seed/new-invoice "invoice-5" date-5 "Sue"
+                               (seed/new-invoice "invoice-5" date-5 "Hannah"
                                  [(seed/new-line-item "Building Blocks" 10 20.0M)])]))))
 
 (defn start []

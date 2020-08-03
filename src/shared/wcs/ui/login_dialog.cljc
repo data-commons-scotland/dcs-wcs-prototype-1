@@ -13,8 +13,8 @@
 (defsc LoginForm [this {:ui/keys [username password] :as props} {:keys [visible?]}]
   {:query               [:ui/username
                          :ui/password]
-   :initial-state       {:ui/username "ash@example.com"
-                         :ui/password "letmein"}
+   :initial-state       {:ui/username "ash@waste-commons.scot"
+                         :ui/password ""}
 
    ::auth/provider      :local
    ::auth/check-session `account/check-session
