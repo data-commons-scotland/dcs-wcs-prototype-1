@@ -15,6 +15,6 @@
       [& args]
       (println "Backend is starting")
       (mount/start-with-args {:config "config/prod.edn"
-                              :overrides {:org.immutant.web/config {:port 8085
-                                                                    :host "192.168.1.80"}}})
+                              :overrides {:org.immutant.web/config {:port (Integer/parseInt (System/getenv "PORT"))  #_8085
+                                                                    :host "0.0.0.0"}}}) #_"192.168.1.80"
       (dev/seed!))
