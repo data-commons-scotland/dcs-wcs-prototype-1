@@ -14,6 +14,7 @@
     [wcs.model :refer [all-attributes]]
     [wcs.model.account :as account]
     [wcs.model.timezone :as timezone]
+    [wcs.ui.autocomplete :as autocomplete]
     [com.fulcrologic.rad.attributes :as rad.attr]
     [wcs.model.invoice :as invoice]))
 
@@ -30,4 +31,5 @@
      (blob/resolvers all-attributes)
      account/resolvers
      invoice/resolvers
-     timezone/resolvers]))
+     timezone/resolvers
+     autocomplete/resolvers]))

@@ -42,10 +42,10 @@ Based on Fulcro's RAD demo
     Build, run, etc.
 
             terminal A
-                npx shadow-cljs -A:f3-dev:rad-dev watch main
+                npx shadow-cljs watch main
 
             terminal B
-                 clj -A:dev:f3-dev:rad-dev:datomic
+                 clj -A:dev:datomic
                  ;; now in a local clj REPL within which we'll start the backend
                  user-> (clojure.core/require 'development)
                  user=> (development/go)
