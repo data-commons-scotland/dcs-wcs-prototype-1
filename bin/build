@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+clojure -Spom
 npm install
 npx shadow-cljs release main
 clojure -A:depstar:dev:datomic -m hf.depstar.uberjar wcs.jar -C wcs.core -v
