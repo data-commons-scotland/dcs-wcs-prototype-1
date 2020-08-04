@@ -5,27 +5,48 @@
         :cljs
         [[com.fulcrologic.fulcro.dom :as dom]
          [goog.functions :as gf]
-         [com.fulcrologic.fulcro.data-fetch :as df]])
+         [com.fulcrologic.fulcro.data-fetch :as df]
+         #_[com.fulcrologic.semantic-ui.modules.rating.ui-rating :refer [ui-rating]]])
     [clojure.string :as str]
     [com.wsscode.pathom.connect :as pc]
     [com.fulcrologic.fulcro.mutations :as m]
-    [com.fulcrologic.fulcro.components :as comp :refer [defsc]]))
+    [com.fulcrologic.fulcro.components :as comp :refer [defsc]]
+    [com.fulcrologic.fulcro.dom.html-entities :as ent]))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; SERVER:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (def all-indexed-data
-  ["Stirling Household Collection 2018"
-   "Stirling Household Collection 2019"
-   "Stirling Tip"
-   "Falkirk"
-   "Glasgow"
-   "Edinburgh"])
+  [{:title "Stirling Council - Household waste collection"
+    :tags "stirling household domestic collections"
+    :url "https://data.stirling.gov.uk/dataset/waste-management"
+    :type "dataset"
+    :rating "***"}
+   {:title "Dundee City Council - Bin sensor returns"
+    :tags "dundee bins sensors"
+    :url "https://data.dundeecity.gov.uk/dataset/bin-sensor-returns"
+    :type "dataset"
+    :rating "***"}
+   {:title "Dundee City Council - Recycling points"
+    :tags "dundee dumps tips recycling"
+    :url "https://data.dundeecity.gov.uk/dataset/recycling-facility-locations"
+    :type "dataset"
+    :rating "***"}
+   {:title "Aberdeenshire Council - Recycling centres"
+    :tags "aberdeenshire dumps tips recycling"
+    :url "https://www.aberdeenshire.gov.uk/online/open-data/"
+    :type "dataset"
+    :rating "***"}
+   {:title "Stirling's household waste collection as linked data cube"
+    :tags "stirling household domestic collections LoD LD RDF linked cube"
+    :url "https://nbviewer.jupyter.org/github/ash-mcc/dcs/blob/df44d254ea7a26840d6621bfbbbd6e47c1072365/stirling-data-experiment/original-data-to-cube.ipynb"
+    :type "article"
+    :rating "***"}])
 
 (defn search-indexed-data [s]
       (->> all-indexed-data
-           (filter (fn [i] (str/includes? (str/lower-case i) (str/lower-case s))))
+           (filter (fn [i] (str/includes? (str/lower-case (:tags i)) (str/lower-case s))))
            (take 10)
            vec))
 
@@ -52,9 +73,14 @@
 (defsc CompletionList [this {:keys [values onValueSelect]}]
        {:ident         (fn [] [:component/id ::CompletionList])}
        (dom/ul nil
-               (map (fn [v]
-                        (dom/li {:key v}
-                                (dom/a {:href "javascript:void(0)" :onClick #(onValueSelect v)} v))) values)))
+               (map (fn [{:keys [tags title url type rating]} m]
+                        (dom/li {:key tags}
+                                #_(dom/a {:href "javascript:void(0)" :onClick #(onValueSelect tags)} tags)
+                                (dom/a {:href url :target "_blank"} title)
+                                (dom/br)
+                                (dom/font {:style {:color "#BEBEBE" :font-size "smaller"}}
+                                          "tags: " tags " | type: " type " | rating: " rating)))
+                    values)))
 
 (def ui-completion-list (comp/factory CompletionList))
 
@@ -95,9 +121,9 @@ a post mutation when that is complete to move them into the main UI view."
        (let [field-id (str "autocomplete-" id)             ; for html label/input association
              ;; server gives us a few, and as the user types we need to filter it further.
              filtered-suggestions (when (vector? suggestions)
-                                        (filter #(str/includes? (str/lower-case %) (str/lower-case value)) suggestions))
+                                        (filter #(str/includes? (str/lower-case (:tags %)) (str/lower-case value)) suggestions))
              ; We want to not show the list if they've chosen something valid
-             exact-match? (and (= 1 (count filtered-suggestions)) (= value (first filtered-suggestions)))
+             exact-match? (and (= 1 (count filtered-suggestions)) (= value (:tags (first filtered-suggestions))))
              ; When they select an item, we place it's value in the input
              onSelect (fn [v] (m/set-string! this :autocomplete/value :value v))]
             (dom/div {:style {:height "600px"}}
@@ -126,5 +152,5 @@ a post mutation when that is complete to move them into the main UI view."
         :route-segment ["search"]}
        (dom/div
          (dom/h3 "Search")
-         (dom/p "Search our index of open data about waste in Scotland.")
+         (dom/p "Search our articles, community comments and index of open data about waste in Scotland.")
          (ui-autocomplete search-input)))
