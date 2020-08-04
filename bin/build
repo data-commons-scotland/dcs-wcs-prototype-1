@@ -2,4 +2,4 @@
 npm install
 npx shadow-cljs release main
 clojure -Spom
-clojure -A:depstar:dev:datomic -m hf.depstar.uberjar wcs.jar -C wcs.core -v
+clojure -A:depstar:dev:datomic -m hf.depstar.uberjar wcs.jar -C -m wcs.core -v
