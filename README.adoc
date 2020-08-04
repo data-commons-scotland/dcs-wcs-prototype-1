@@ -115,6 +115,7 @@ clojure -A:depstar:dev:datomic -m hf.depstar.uberjar wcs.jar -C -m wcs.core  -v
 * Run the backend...
 [source]
 ----
+export PORT=8085
 java -jar wcs.jar
 ----
 
