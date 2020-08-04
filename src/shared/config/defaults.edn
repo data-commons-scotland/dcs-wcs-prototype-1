@@ -1,6 +1,9 @@
 {:org.immutant.web/config           {:port 3000
                                      :host "localhost"}
 
+ :static                            {:resources "public"
+                                     :files     "resources/public"}
+
  :com.fulcrologic.rad.database-adapters.datomic/databases
                                     {:main {:datomic/schema           :production
                                             :datomic/driver           :mem
