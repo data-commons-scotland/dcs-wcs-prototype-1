@@ -36,7 +36,7 @@
       (dom/font {:style {:color "#E56E94"}} "Search for")
       ", "
       (dom/font {:style {:color "#9CB071"}} " learn about")
-      ", "
+      " and"
       (dom/font {:style {:color "#659EC7"}} " comment on")
       " the " (dom/i "open data") " about " (dom/b "waste") " in Scotland.")))
 
@@ -81,7 +81,9 @@
               #?(:cljs
                  (comp/fragment
                    (ui-menu-item {:onClick (fn [] (rroute/route-to! this LandingPage {}))}
-                                 (dom/img {:src "/images/dcs.png"}) ent/nbsp "Waste Commons Scotland")))
+                                 (dom/img {:src "/images/dcs.png"}) ent/nbsp "Waste Commons Scotland")
+                   (ui-menu-item {:onClick (fn [] (rroute/route-to! this about/AboutPage {}))} "About")
+                   (ui-menu-item {:onClick (fn [] (rroute/route-to! this autocomplete/AutocompleteRoot {}))} "Search")))
               (when logged-in?
                 #?(:cljs
                    (comp/fragment
@@ -106,10 +108,6 @@
                    (div :.item
                         (div :.ui.tiny.loader {:classes [(when busy? "active")]})
                         ent/nbsp ent/nbsp ent/nbsp ent/nbsp)
-                   #?(:cljs
-                      (comp/fragment
-                        (ui-menu-item {:onClick (fn [] (rroute/route-to! this autocomplete/AutocompleteRoot {}))} "Search")
-                        (ui-menu-item {:onClick (fn [] (rroute/route-to! this about/AboutPage {}))} "About")))
                    (if logged-in?
                     (comp/fragment
                       (div :.ui.item

@@ -170,7 +170,10 @@ a post mutation when that is complete to move them into the main UI view."
                                                 :target               (conj (autocomplete-ident id) :autocomplete/loaded-suggestions)}
                                                )))
           ]
-         (gf/debounce load-suggestions 500)))
+    #?(:cls
+       load-suggestions
+       :cljs
+       (gf/debounce load-suggestions 500))))
 
 (defsc Autocomplete [this {:keys [db/id autocomplete/suggestions autocomplete/value] :as props}]
        {:query         [:db/id                             ; the component's ID
@@ -200,7 +203,8 @@ a post mutation when that is complete to move them into the main UI view."
                                                       ; if they shrink the value too much, clear suggestions
                                                       (m/set-value! this :autocomplete/suggestions []))
                                                     ; always update the input itself (controlled)
-                                                    (m/set-string! this :autocomplete/value :value new-value)))})
+                                                    (m/set-string! this :autocomplete/value :value new-value)))
+                                 :autoComplete "off"})
                      ; show the completion list when it exists and isn't just exactly what they've chosen ...but logic partially bypassed for now
                      (when (and (vector? suggestions) (seq suggestions) #_(not exact-match?))
                            (ui-completion-list {:values filtered-suggestions :onValueSelect onSelect})))))
