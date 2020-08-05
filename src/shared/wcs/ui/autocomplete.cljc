@@ -50,7 +50,7 @@
     :url "http://www.moray.gov.uk/moray_standard/page_110140.html"
     :type "dataset"
     :rating "***"}
-   {:title "North Aryshire Council - recycling centres"
+   {:title "North Ayrshire Council - recycling centres"
     :additional "waste tip dump"
     :url "https://maps-north-ayrshire.opendata.arcgis.com/datasets/recycling-centres"
     :type "dataset"
