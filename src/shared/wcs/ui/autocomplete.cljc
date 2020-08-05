@@ -20,11 +20,11 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (def all-indexed-data
-  [{:title "Stirling Council - household waste collection"
-    :additional "waste domestic bin"
-    :url "https://data.stirling.gov.uk/dataset/waste-management"
-    :type "dataset"
-    :rating "***"}
+  [{:title "Aberdeenshire Council - recycling centres"
+    :additional "waste dump tip"
+    :url "https://www.aberdeenshire.gov.uk/online/open-data/"
+    :type "portal"
+    :rating "**"}
    {:title "Dundee City Council - bin sensor returns"
     :additional "waste"
     :url "https://data.dundeecity.gov.uk/dataset/bin-sensor-returns"
@@ -35,11 +35,43 @@
     :url "https://data.dundeecity.gov.uk/dataset/recycling-facility-locations"
     :type "dataset"
     :rating "***"}
-   {:title "Aberdeenshire Council - recycling centres"
-    :additional "waste dump tip"
-    :url "https://www.aberdeenshire.gov.uk/online/open-data/"
+   {:title "East Renfrewshire Council - bin collection days"
+   :additional "waste domestic household"
+   :url "https://ckan.publishing.service.gov.uk/dataset/bin-collection-days"
+   :type "dataset"
+   :rating "***"}
+   {:title "Glasgow City Council - household waste"
+    :additional "waste domestic"
+    :url "https://data.glasgow.gov.uk/dataset/household-waste"
     :type "dataset"
     :rating "***"}
+   {:title "Moray Council - recycling centres"
+    :additional "waste tip dump"
+    :url "http://www.moray.gov.uk/moray_standard/page_110140.html"
+    :type "dataset"
+    :rating "***"}
+   {:title "North Aryshire Council - recycling centres"
+    :additional "waste tip dump"
+    :url "https://maps-north-ayrshire.opendata.arcgis.com/datasets/recycling-centres"
+    :type "dataset"
+    :rating "***"}
+   {:title "Stirling Council - household waste collection"
+    :additional "waste domestic bin"
+    :url "https://data.stirling.gov.uk/dataset/waste-management"
+    :type "dataset"
+    :rating "***"}
+
+   {:title "Scottish Government - household waste"
+    :additional "waste domestic LoD LD RDF linked cube"
+    :url "http://statistics.gov.scot/data/household-waste"
+    :type "dataset"
+    :rating "*****"}
+   {:title "SEPA"
+    :additional "waste environmental protection agency"
+    :url "https://www.sepa.org.uk/environment/waste/"
+    :type "portal"
+    :rating "***"}
+
    {:title "Stirling Council - household waste collection as linked data cube"
     :additional "waste domestic LoD LD RDF linked cube"
     :url "https://nbviewer.jupyter.org/github/ash-mcc/dcs/blob/df44d254ea7a26840d6621bfbbbd6e47c1072365/stirling-data-experiment/original-data-to-cube.ipynb"
@@ -106,9 +138,9 @@
                         (dom/li {:key url}
                                 #_(dom/a {:href "javascript:void(0)" :onClick #(onValueSelect tags)} tags)
                                 (dom/a {:href url :target "_blank"} title)
-                                (dom/font {:style {:color "#BEBEBE" :font-size "smaller"}} " (" type ") (" rating ")")
+                                (dom/font {:style {:color "#BEBEBE" :fontSize "smaller"}} " (" type ") (" rating ")")
                                 (dom/br)
-                                (dom/font {:style {:color "#BEBEBE" :font-size "smaller"}}
+                                (dom/font {:style {:color "#BEBEBE" :fontSize "smaller"}}
                                           "matched on: " (str/join " " matched))))
                     values)))
 
@@ -138,8 +170,7 @@ a post mutation when that is complete to move them into the main UI view."
                                                 :target               (conj (autocomplete-ident id) :autocomplete/loaded-suggestions)}
                                                )))
           ]
-         #_(gf/debounce load-suggestions 500)
-         load-suggestions))
+         (gf/debounce load-suggestions 500)))
 
 (defsc Autocomplete [this {:keys [db/id autocomplete/suggestions autocomplete/value] :as props}]
        {:query         [:db/id                             ; the component's ID
