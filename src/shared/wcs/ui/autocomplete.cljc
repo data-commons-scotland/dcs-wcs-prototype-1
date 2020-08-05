@@ -1,12 +1,14 @@
 (ns wcs.ui.autocomplete
   (:require
     #?@(:clj
-        [[com.fulcrologic.fulcro.dom-server :as dom]]
+        [[com.fulcrologic.fulcro.dom-server :as dom]
+         [clojure.pprint :refer [pprint]]]
         :cljs
         [[com.fulcrologic.fulcro.dom :as dom]
          [goog.functions :as gf]
          [com.fulcrologic.fulcro.data-fetch :as df]
-         #_[com.fulcrologic.semantic-ui.modules.rating.ui-rating :refer [ui-rating]]])
+         #_[com.fulcrologic.semantic-ui.modules.rating.ui-rating :refer [ui-rating]]
+         [cljs.pprint :refer [pprint]]])
     [clojure.string :as str]
     [com.wsscode.pathom.connect :as pc]
     [com.fulcrologic.fulcro.mutations :as m]
@@ -18,35 +20,62 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (def all-indexed-data
-  [{:title "Stirling Council - Household waste collection"
-    :tags "stirling household domestic collections"
+  [{:title "Stirling Council - household waste collection"
+    :additional "waste domestic bin"
     :url "https://data.stirling.gov.uk/dataset/waste-management"
     :type "dataset"
     :rating "***"}
-   {:title "Dundee City Council - Bin sensor returns"
-    :tags "dundee bins sensors"
+   {:title "Dundee City Council - bin sensor returns"
+    :additional "waste"
     :url "https://data.dundeecity.gov.uk/dataset/bin-sensor-returns"
     :type "dataset"
     :rating "***"}
-   {:title "Dundee City Council - Recycling points"
-    :tags "dundee dumps tips recycling"
+   {:title "Dundee City Council - recycling points"
+    :additional "waste dump tip"
     :url "https://data.dundeecity.gov.uk/dataset/recycling-facility-locations"
     :type "dataset"
     :rating "***"}
-   {:title "Aberdeenshire Council - Recycling centres"
-    :tags "aberdeenshire dumps tips recycling"
+   {:title "Aberdeenshire Council - recycling centres"
+    :additional "waste dump tip"
     :url "https://www.aberdeenshire.gov.uk/online/open-data/"
     :type "dataset"
     :rating "***"}
-   {:title "Stirling's household waste collection as linked data cube"
-    :tags "stirling household domestic collections LoD LD RDF linked cube"
+   {:title "Stirling Council - household waste collection as linked data cube"
+    :additional "waste domestic LoD LD RDF linked cube"
     :url "https://nbviewer.jupyter.org/github/ash-mcc/dcs/blob/df44d254ea7a26840d6621bfbbbd6e47c1072365/stirling-data-experiment/original-data-to-cube.ipynb"
     :type "article"
     :rating "***"}])
 
-(defn search-indexed-data [s]
+
+(defn parse
+  "Returns a de-duped list of 2+ letter long words - in lowercase."
+  [s]
+  (let [l (-> s
+            (or "")
+            str/lower-case
+            (str/split #"\s+")
+            distinct)]
+    (filter #(>= (count %) 2) l)))
+
+(defn match
+  "Returns a list of the 'actual' words that match the 'suggestion' words."
+  [suggestion actual]
+  (let [suggestion-words (parse suggestion)
+        actual-words (parse (str (:title actual) " " (:additional actual)))
+        matched-words (for [suggestion-word suggestion-words
+                            actual-word actual-words]
+                        (when (str/includes? actual-word suggestion-word)
+                          actual-word))]
+    (->> matched-words
+         distinct
+         (remove nil?))))
+
+
+(defn search-indexed-data [suggestion]
       (->> all-indexed-data
-           (filter (fn [i] (str/includes? (str/lower-case (:tags i)) (str/lower-case s))))
+           (map #(assoc % :matched (match suggestion %)))
+           (sort-by #(count (:matched %)))
+           reverse
            (take 10)
            vec))
 
@@ -73,13 +102,14 @@
 (defsc CompletionList [this {:keys [values onValueSelect]}]
        {:ident         (fn [] [:component/id ::CompletionList])}
        (dom/ul nil
-               (map (fn [{:keys [tags title url type rating]} m]
-                        (dom/li {:key tags}
+               (map (fn [{:keys [title url type rating matched]} m]
+                        (dom/li {:key url}
                                 #_(dom/a {:href "javascript:void(0)" :onClick #(onValueSelect tags)} tags)
                                 (dom/a {:href url :target "_blank"} title)
+                                (dom/font {:style {:color "#BEBEBE" :font-size "smaller"}} " (" type ") (" rating ")")
                                 (dom/br)
                                 (dom/font {:style {:color "#BEBEBE" :font-size "smaller"}}
-                                          "tags: " tags " | type: " type " | rating: " rating)))
+                                          "matched on: " (str/join " " matched))))
                     values)))
 
 (def ui-completion-list (comp/factory CompletionList))
@@ -120,10 +150,11 @@ a post mutation when that is complete to move them into the main UI view."
         :initial-state (fn [{:keys [id]}] {:db/id id :autocomplete/suggestions [] :autocomplete/value ""})}
        (let [field-id (str "autocomplete-" id)             ; for html label/input association
              ;; server gives us a few, and as the user types we need to filter it further.
+             ; _ (pprint (str "suggestions: " (map #(count (:matched %)) suggestions)))
              filtered-suggestions (when (vector? suggestions)
-                                        (filter #(str/includes? (str/lower-case (:tags %)) (str/lower-case value)) suggestions))
+                                        (filter #(> (count (:matched %)) 0) suggestions))
              ; We want to not show the list if they've chosen something valid
-             exact-match? (and (= 1 (count filtered-suggestions)) (= value (:tags (first filtered-suggestions))))
+             exact-match? (and (= 1 (count filtered-suggestions)) (= value (:matched (first filtered-suggestions))))
              ; When they select an item, we place it's value in the input
              onSelect (fn [v] (m/set-string! this :autocomplete/value :value v))]
             (dom/div {:style {:height "600px"}}
@@ -139,8 +170,8 @@ a post mutation when that is complete to move them into the main UI view."
                                                       (m/set-value! this :autocomplete/suggestions []))
                                                     ; always update the input itself (controlled)
                                                     (m/set-string! this :autocomplete/value :value new-value)))})
-                     ; show the completion list when it exists and isn't just exactly what they've chosen
-                     (when (and (vector? suggestions) (seq suggestions) (not exact-match?))
+                     ; show the completion list when it exists and isn't just exactly what they've chosen ...but logic partially bypassed for now
+                     (when (and (vector? suggestions) (seq suggestions) #_(not exact-match?))
                            (ui-completion-list {:values filtered-suggestions :onValueSelect onSelect})))))
 
 (def ui-autocomplete (comp/factory Autocomplete))
