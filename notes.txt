@@ -93,9 +93,11 @@ Git
         git checkout vega-experiment
         git commit -a -m 'Initial commit of Vega experiment'
         git push --set-upstream origin vega-experiment
+        # modify files
         git push
         git checkout master
         git merge vega-experiment
+        git push
 
 
 ----------------------------
