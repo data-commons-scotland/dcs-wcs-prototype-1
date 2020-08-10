@@ -76,11 +76,25 @@ Based on Fulcro's RAD demo
 
 Git
 
-    git init
-    git add -A
-    git commit -m 'Initial commit'
-    git remote add origin git@github.com:ash-mcc/dcs-wcs.git
-    git push -u -f origin master
+    Setting-up
+        git init
+        git add -A
+        git commit -m 'Initial commit'
+        git remote add origin git@github.com:ash-mcc/dcs-wcs.git
+        git push -u -f origin master
+
+    Tagging
+        git tag -a v0.0.1-20200806 -m "Corresponds to weekly progress report of the 6th Aug 2020"
+        git tag
+        git push origin --tags
+
+    Branching
+        git branch vega-experiment
+        git checkout vega-experiment
+        git commit -a -m 'Initial commit of Vega experiment'
+        git checkout master
+        git merge vega-experiment
+
 
 ----------------------------
 
