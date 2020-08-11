@@ -9,6 +9,9 @@
            com.taoensso/encore                    {:mvn/version "2.120.0"}
            com.fulcrologic/guardrails             {:mvn/version "0.0.12"}
 
+           org.clojure/data.csv                   {:mvn/version "1.0.0"}
+           cljs-http/cljs-http                    {:mvn/version "0.1.46"}
+
            ;; Performance checks
            com.taoensso/tufte                     {:mvn/version "2.1.0"}
 

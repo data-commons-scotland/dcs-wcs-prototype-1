@@ -1,5 +1,7 @@
 (ns wcs.ui.example-article
   (:require
+    [com.fulcrologic.fulcro.components :as comp :refer [defsc]]
+    [clojure.edn :as edn]
     #?@(:clj
                     [[com.fulcrologic.fulcro.dom-server :as dom]
                      [clojure.pprint :refer [pprint]]]
@@ -9,8 +11,13 @@
                      ["vega" :as vg]
                      ["vega-embed" :as ve]
                      ["vega-lite" :as vl]
-                     [cljs.pprint :refer [pprint]]])
-    [com.fulcrologic.fulcro.components :as comp :refer [defsc]]))
+                     [cljs.pprint :refer [pprint]]
+                     [cljs-http.client :as http]
+                     [cljs.core.async :refer [<!]]
+                     #_[goog.labs.format.csv :as csv]]))
+  (:require-macros
+    #?@(:cljs
+        [[cljs.core.async.macros :refer [go]]])))
 
 #?(:cljs
    (defn parse-vl-spec [elem spec]
@@ -118,23 +125,26 @@
              ]
      }))
 
-(def data
-  [{:council "East Renfrewshire"   :year "2015"   :tonnage "0.5087279607717727"}
-   {:council "East Renfrewshire"   :year "2016"   :tonnage "0.4087279607717727"}
-   {:council "Scottish Borders "  :year "2015"  :tonnage "0.43802209750964577"}
-   {:council "Scottish Borders "  :year "2016"  :tonnage "0.33802209750964577"}
-   {:council "Clackmannanshire"   :year "2015"   :tonnage "0.5183232087227415"}
-   {:council "Clackmannanshire"   :year "2016"   :tonnage "0.5083232087227415"}
-   {:council "Orkney Islands"   :year "2015"  :tonnage "0.46059125732311856"}
-   {:council "Orkney Islands"   :year "2016"  :tonnage "0.96059125732311856"}])
+(def dataset (atom nil))
+
+(go
+  (pprint "fetching waste-generated-per-council-citizen-per-year.edn ...")
+  (let [response (<! (http/get "/datasets/waste-generated-per-council-citizen-per-year.edn"))]
+    (pprint (str "response: " response))
+    (reset! dataset (edn/read-string (:body response)))))
 
 (defsc ExampleArticlePage [this props]
   {:query         ['*]
    :ident         (fn [] [:component/id ::ExampleArticlePage])
    :initial-state {}
-   :route-segment ["waste-generated-per-council-citizen-per-year"]}
+   :route-segment ["articles" "whereabouts-is-recycling-improving"]}
   (dom/div
-    (dom/h3 "Waste generated per council citizen per year")
+    (dom/h3 "Whereabouts is recycling improving?")
 
-    (dom/p "TODO")
-    (chart (chart-spec "Waste generated per council citizen per year" data))))
+    (dom/p "The graph below indicates that the citizens of council X have the most improved recycling rate.")
+
+    (chart (chart-spec "Waste generated per council citizen per year" @dataset))
+
+    (dom/p
+      (dom/a {:href "/datasets/waste-generated-per-council-citizen-per-year.csv"} "This")
+      " is the " (dom/i "permanent") " hyperlink for the dataset on which this article is based.")))

@@ -11,7 +11,8 @@
     [mount.core :refer [defstate]]
     [ring.middleware.defaults :refer [wrap-defaults]]
     [ring.util.response :as resp]
-    [taoensso.timbre :as log]))
+    [taoensso.timbre :as log]
+    [wcs.components.datasets :as datasets]))
 
 (defn index [csrf-token]
   (html5
@@ -46,6 +47,7 @@
 (defn wrap-html-routes [ring-handler]
   (fn [{:keys [uri anti-forgery-token] :as req}]
     (if (or (str/starts-with? uri "/api")
+          (str/starts-with? uri "/datasets")
           (str/starts-with? uri "/images")
           (str/starts-with? uri "/files")
           (str/starts-with? uri "/js"))
@@ -64,6 +66,7 @@
       (blob/wrap-blob-service "/files" bs/file-blob-store)
       (server/wrap-transit-params {})
       (server/wrap-transit-response {})
+      (datasets/wrap-datasets "/datasets")
       (wrap-html-routes)
       (wrap-defaults defaults-config))))
 
