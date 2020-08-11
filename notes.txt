@@ -28,7 +28,7 @@ Based on Fulcro's RAD demo
      		npm 5.5.0
      		        npm list
      		        npm init
-     		        npm install shadow-cljs react react-dom --save
+     		        npm install shadow-cljs react react-dom vega vega-embed vega-lite --save
      			node 8.9.1
 
      		shadow-cljs 2.10.17

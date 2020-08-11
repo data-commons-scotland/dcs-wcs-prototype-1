@@ -14,6 +14,7 @@
     [wcs.ui.sales-report :as sales-report]
     [wcs.ui.dashboard :as dashboard]
     [wcs.ui.about :as about]
+    [wcs.ui.example-article :as example-article]
     [wcs.ui.autocomplete :as autocomplete]
     [com.fulcrologic.fulcro.application :as app]
     [com.fulcrologic.fulcro.components :as comp :refer [defsc]]
@@ -49,6 +50,7 @@
                          sales-report/RealSalesReport
                          dashboard/Dashboard
                          about/AboutPage
+                         example-article/ExampleArticlePage
                          autocomplete/AutocompleteRoot]}
   ;; Normal Fulcro code to show a loader on slow route change (assuming Semantic UI here, should
   ;; be generalized for RAD so UI-specific code isn't necessary)
@@ -83,6 +85,10 @@
                    (ui-menu-item {:onClick (fn [] (rroute/route-to! this LandingPage {}))}
                                  (dom/img {:src "/images/dcs.png"}) ent/nbsp "Waste Commons Scotland")
                    (ui-menu-item {:onClick (fn [] (rroute/route-to! this about/AboutPage {}))} "About")
+                   (ui-dropdown {:className "item" :text "Articles"}
+                                (ui-dropdown-menu {}
+                                                  (ui-dropdown-item {:onClick (fn [] (rroute/route-to! this example-article/ExampleArticlePage {}))} "Waste generated per council citizen per year")))
+
                    (ui-menu-item {:onClick (fn [] (rroute/route-to! this autocomplete/AutocompleteRoot {}))} "Search")))
               (when logged-in?
                 #?(:cljs
