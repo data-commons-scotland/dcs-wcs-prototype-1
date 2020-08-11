@@ -13,7 +13,9 @@
     [com.wsscode.pathom.connect :as pc]
     [com.fulcrologic.fulcro.mutations :as m]
     [com.fulcrologic.fulcro.components :as comp :refer [defsc]]
-    [com.fulcrologic.fulcro.dom.html-entities :as ent]))
+    [com.fulcrologic.fulcro.dom.html-entities :as ent]
+    [com.fulcrologic.rad.routing :as rroute]
+    [wcs.ui.example-article :as example-article]))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; SERVER:
@@ -66,17 +68,27 @@
     :url "http://statistics.gov.scot/data/household-waste"
     :type "dataset"
     :rating "*****"}
-   {:title "SEPA"
+   {:title "SEPA - portal"
     :additional "waste environmental protection agency"
     :url "https://www.sepa.org.uk/environment/waste/"
     :type "portal"
     :rating "***"}
+   {:title "ZWS - The carbon footprint of Scotland's household waste"
+    :additional "waste greenhouse gas emission domestion co2"
+    :url "https://www.zerowastescotland.org.uk/sites/default/files/2018%20Carbon%20Metric%20HH%20Brief%20-%20Final.pdf"
+    :type "article"
+    :rating "***"}
 
-   {:title "Stirling Council - household waste collection as linked data cube"
+   {:title "DCS - Stirling council's household waste collection as linked data cube"
     :additional "waste domestic LoD LD RDF linked cube"
     :url "https://nbviewer.jupyter.org/github/ash-mcc/dcs/blob/df44d254ea7a26840d6621bfbbbd6e47c1072365/stirling-data-experiment/original-data-to-cube.ipynb"
     :type "article"
-    :rating "***"}])
+    :rating "***"}
+   {:title "DCS - Whereabouts is recycling improving?"
+    :additional "waste domestic household recycling trend council"
+    :url "/articles/whereabouts-is-recycling-improving"
+    :type "article"
+    :rating "**"}])
 
 
 (defn parse
@@ -137,7 +149,9 @@
                (map (fn [{:keys [title url type rating matched]} m]
                         (dom/li {:key url}
                                 #_(dom/a {:href "javascript:void(0)" :onClick #(onValueSelect tags)} tags)
-                                (dom/a {:href url :target "_blank"} title)
+                                (if (str/starts-with? url "/")
+                                  (dom/a {:onClick (fn [] (rroute/route-to! this example-article/ExampleArticlePage {}))} title)
+                                  (dom/a {:href url :target "_blank"} title))
                                 (dom/font {:style {:color "#BEBEBE" :fontSize "smaller"}} " (" type ") (" rating ")")
                                 (dom/br)
                                 (dom/font {:style {:color "#BEBEBE" :fontSize "smaller"}}
