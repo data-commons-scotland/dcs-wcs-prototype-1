@@ -88,7 +88,12 @@
     :additional "waste domestic household recycling trend council"
     :url "/articles/whereabouts-is-recycling-improving"
     :type "article"
-    :rating "**"}])
+    :rating "**"}
+   {:title "DCS - Waste generated per council citizen per year"
+    :additional "waste domestic household recycling trend council"
+    :url "/datasets/waste-generated-per-council-citizen-per-year.csv"
+    :type "dataset"
+    :rating "***"}])
 
 
 (defn parse
@@ -149,7 +154,7 @@
                (map (fn [{:keys [title url type rating matched]} m]
                         (dom/li {:key url}
                                 #_(dom/a {:href "javascript:void(0)" :onClick #(onValueSelect tags)} tags)
-                                (if (str/starts-with? url "/")
+                                (if (str/starts-with? url "/articles/")
                                   (dom/a {:onClick (fn [] (rroute/route-to! this example-article/ExampleArticlePage {}))} title)
                                   (dom/a {:href url :target "_blank"} title))
                                 (dom/font {:style {:color "#BEBEBE" :fontSize "smaller"}} " (" type ") (" rating ")")

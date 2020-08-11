@@ -14,8 +14,9 @@
                      [cljs.pprint :refer [pprint]]
                      [cljs-http.client :as http]
                      [cljs.core.async :refer [<!]]
+                     [cljs.core.async :refer-macros [go]]
                      #_[goog.labs.format.csv :as csv]]))
-  (:require-macros
+  #_(:require-macros
     #?@(:cljs
         [[cljs.core.async.macros :refer [go]]])))
 
@@ -127,11 +128,12 @@
 
 (def dataset (atom nil))
 
+#?(:cljs
 (go
   (pprint "fetching waste-generated-per-council-citizen-per-year.edn ...")
   (let [response (<! (http/get "/datasets/waste-generated-per-council-citizen-per-year.edn"))]
     (pprint (str "response: " response))
-    (reset! dataset (edn/read-string (:body response)))))
+    (reset! dataset (edn/read-string (:body response))))))
 
 (defsc ExampleArticlePage [this props]
   {:query         ['*]
