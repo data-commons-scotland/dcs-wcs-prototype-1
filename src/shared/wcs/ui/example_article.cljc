@@ -52,79 +52,19 @@
 
 (defn chart-spec [title data]
   (let [year-count (count (group-by :year data))]
-    {:title title
-     :width 400
-     :height 500
-     :data {:values data}
-     :mark "line"
-     :layer [
-             {
-              :encoding {
-                         :x {:field "year" :type "temporal" :timeUnit "year" :axis {:tickCount year-count :title "year"}}
-                         :y {:field "tonnage" :type "quantitative" :scale {:zero false} :axis {:title "tonnage"}}
-                         :color {:field "council" :type "nominal"}}
-              :layer [
-                      {:mark {:type "line"
-                              :point {:filled false
-                                      :fill "white"}}}
-                      {
-                       :selection {
-                                   :label {
-                                           :type "single"
-                                           :nearest true
-                                           :on "mouseover"
-                                           :encodings ["x"]
-                                           :empty "none"
-                                           }
-                                   }
-                       :mark "point"
-                       :encoding {
-                                  :opacity {
-                                            :condition {:selection "label" :value 1}
-                                            :value 0
-                                            }
-                                  }
-                       }
-                      ]
-              }
-             {
-              :transform [{:filter {:selection "label"}}],
-              :layer [
-                      {
-                       :mark {:type "rule" :color "gray"},
-                       :encoding {
-                                  :x {:type "temporal"  :field "year"}
-                                  }
-                       },
-                      {
-                       :encoding {
-                                  :text {:type "nominal", :field "council"},
-                                  :x {:type "temporal", :field "year"},
-                                  :y {:type "quantitative", :field "tonnage"}
-                                  },
-                       :layer [
-                               {
-                                :mark {
-                                       :type "text",
-                                       :stroke "white",
-                                       :strokeWidth 2,
-                                       :align "left",
-                                       :dx 5,
-                                       :dy -5
-                                       }
-                                },
-                               {
-                                :mark {:type "text", :align "left", :dx 5, :dy -5},
-                                :encoding {
-                                           :color {:type "nominal", :field "council"}
-                                           }
-                                }
-                               ]
-                       }
-                      ]
-              }
-             ]
-     }))
+    {:title     title
+     :width     400
+     :height    500
+     :data      {:values data}
+     :mark      "line"
+     :selection {:my {:type "multi"
+                      :fields ["council"]
+                      :bind "legend"}}
+     :encoding  {:x       {:field "year" :type "temporal" :timeUnit "year" :axis {:tickCount year-count :title "year"}}
+                 :y       {:field "tonnage" :type "quantitative" :scale {:zero false} :axis {:title "tonnage"}}
+                 :color   {:field "council" :type "nominal"}
+                 :opacity {:condition {:selection "my" :value 1}
+                           :value     0.2}}}))
 
 (def dataset (atom nil))
 
