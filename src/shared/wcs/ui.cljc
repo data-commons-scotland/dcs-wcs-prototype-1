@@ -87,7 +87,7 @@
                    (ui-menu-item {:onClick (fn [] (rroute/route-to! this about/AboutPage {}))} "About")
                    (ui-dropdown {:className "item" :text "Articles"}
                                 (ui-dropdown-menu {}
-                                                  (ui-dropdown-item {:onClick (fn [] (rroute/route-to! this example-article/ExampleArticlePage {}))} "Whereabouts is recycling improving?")))
+                                                  (ui-dropdown-item {:onClick (fn [] (rroute/route-to! this example-article/ExampleArticlePage {}))} "Where is household waste improving?")))
 
                    (ui-menu-item {:onClick (fn [] (rroute/route-to! this autocomplete/AutocompleteRoot {}))} "Search")))
               (when logged-in?

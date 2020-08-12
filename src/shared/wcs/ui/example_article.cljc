@@ -54,7 +54,7 @@
   (let [year-count (count (group-by :year data))]
     {:title title
      :width 400
-     :height 400
+     :height 500
      :data {:values data}
      :mark "line"
      :layer [
@@ -139,11 +139,11 @@
   {:query         ['*]
    :ident         (fn [] [:component/id ::ExampleArticlePage])
    :initial-state {}
-   :route-segment ["articles" "whereabouts-is-recycling-improving"]}
+   :route-segment ["articles" "where-is-household-waste-improving"]}
   (dom/div
-    (dom/h3 "Whereabouts is recycling improving?")
+    (dom/h3 "Where is household waste improving?")
 
-    (dom/p "The graph below indicates that the citizens of council X have the most improved recycling rate.")
+    (dom/p "The graph below indicates that the citizens of Inverclyde are generating the least amounts of waste.")
 
     (chart (chart-spec "Waste generated per council citizen per year" @dataset))
 

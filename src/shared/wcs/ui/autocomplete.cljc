@@ -84,9 +84,9 @@
     :url "https://nbviewer.jupyter.org/github/ash-mcc/dcs/blob/df44d254ea7a26840d6621bfbbbd6e47c1072365/stirling-data-experiment/original-data-to-cube.ipynb"
     :type "article"
     :rating "***"}
-   {:title "DCS - Whereabouts is recycling improving?"
-    :additional "waste domestic household recycling trend council"
-    :url "/articles/whereabouts-is-recycling-improving"
+   {:title "DCS - Where is household waste improving?"
+    :additional "waste domestic generation trend council"
+    :url "/articles/where-is-household-waste-improving"
     :type "article"
     :rating "**"}
    {:title "DCS - Waste generated per council citizen per year"
