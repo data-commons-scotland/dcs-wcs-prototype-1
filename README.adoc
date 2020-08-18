@@ -84,6 +84,8 @@ Rory clicks on that hyperlink and the dataset is loaded into his spreadsheet app
 
 image::dataset.png[align="center"]
 
+---
+
 == Building and running
 
 WCS is built on https://github.com/fulcrologic/fulcro[Fulcro] rapid-application-development framework and its many underlying technologies.
