@@ -1,0 +1,64 @@
+== Features
+
+What follows is a contrived scenario that introduces the features of WCS.
+
+==== The scenario
+
+For a school Nat 5 human geography, Rory needs to research trends in Scottish household waste.
+Rory opens up his laptop computer and types “information about Scottish waste” into a search engine…
+
+image::duck-duck-go.png[align="center"]
+
+NOTE: The website has not been indexed yet by search engines so the above image has been mocked!
+
+Rory sees Waste Commons Scotland at the top of the search results and decides to click on it
+to see what its website has to offer…
+
+image::landing-page.png[align="center"]
+
+NOTE: The web application is currently running on Heroku’s cloud
+at https://waste-commons-scotland.herokuapp.com. If you try to access that web page…
+Your first attempt might timeout because Heroku takes ~20 seconds to spin-up the underlying compute machine.
+(I’m using Heroku’s free tier which automatically hibernates a compute machine after 30 minutes of idleness.)
+Your subsequent access attempts should succeed.
+
+Rory wonders about the provenance of the site and so click on the About menu option…
+
+image::about.png[align="center"]
+
+Rory thinks to himself “…fine, I wonder if I can search for trends in household waste on this website?”.
+So, he clicks on the Search menu option, starts typing into the search entry box and, automatically,
+a list of suggestions starts appearing…
+
+image::search.png[align="center"]
+
+Rory stops typing and scans the suggestions. He notices that some of the resulting suggestions are articles,
+some are datasets and others are community comments; and that they have been annotated with rating stars.
+Rory wonders about the basis for their ratings then he notices one of the suggestions in particular:
+“DCS – Where is household waste improving?” He thinks that this promises to be informative,
+and clicks on its hyperlink…
+
+image::article.png[align="center"]
+
+Rory discovers that the article – linked to by the search result that he clicked on - is hosted on
+the same website. It contains factual but easy to understand explanatory prose and infographics;
+it absolutely conveys information that will be useful for his school project.
+
+The article provides Rory with permanent hyperlinks to embeddable versions of its infographics.
+“Great” thinks Rory, “I can include copies of these graphs in my own project document!”.
+
+Also, the article provides metadata that describes the datasets underlying the article,
+including: permanent links to the datasets (e.g. to .csv, csvw or .ttl files);
+timestamps of computation and caching; descriptions of derivation and sourcing (e.g. SPARLQ queries); etc.
+
+NOTE: This embeddable infographic and dataset metadata features have not been implemented yet.
+
+Within the metadata information, Rory sees the permanent hyperlink to the dataset that underlies
+the article’s prose…
+
+image::dataset-link.png[align="center"]
+
+Rory clicks on that hyperlink and the dataset is loaded into his spreadsheet application…
+
+image::dataset.png[align="center"]
+

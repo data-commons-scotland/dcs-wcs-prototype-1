@@ -1,3 +1,5 @@
+:imagesdir: doc/images
+
 = Waste Commons Scotland
 
 This repository contains the source code and build instructions for
@@ -16,9 +18,13 @@ and be an archetype for future portals onto other categories of _open data_.
 
 WARNING: The project is at an early stage and this is mostly _placeholder_ content.
 
+---
+
+include::doc/scenario.adoc[]
+
 == Building and running
 
-WCS is built on https://github.com/fulcrologic/fulcro[Fulcro] and its many underlying technologies.
+WCS is built on https://github.com/fulcrologic/fulcro[Fulcro] rapid-application-development framework and its many underlying technologies.
 
 === Setting up the environment, tools, etc.
 
